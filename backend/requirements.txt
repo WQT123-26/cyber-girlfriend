@@ -1,0 +1,11 @@
+# 赛博女友 / cyber-girlfriend —— 后端依赖
+# 说明：刻意保持极简依赖，全部为纯 Python 包，无需编译。
+# 中文分词等能力使用标准库自行实现，不引入 jieba / numpy / chromadb 等重型依赖。
+
+fastapi>=0.110.0
+uvicorn>=0.27.0
+sqlalchemy>=2.0.25
+pydantic>=2.6.0
+pydantic-settings>=2.1.0
+python-multipart>=0.0.9
+httpx>=0.27.0

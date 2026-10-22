@@ -1,0 +1,57 @@
+# 赛博女友 / cyber-girlfriend —— 单服务 Compose 配置
+#
+# 用法：
+#   docker compose up -d --build      启动（首次会构建镜像）
+#   docker compose logs -f            查看日志
+#   docker compose down               停止（数据保留在 ./backend/data）
+#
+# 默认 mock 模式，零配置即可打开 http://localhost:8000
+# 想接真实模型时，取消下面 environment 中对应注释并按需填写。
+
+services:
+  cyber-girlfriend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cyber-girlfriend:0.2.0
+    container_name: cyber-girlfriend
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    volumes:
+      # 聊天记录 / 人格 / 记忆 / 备份全部落在宿主机该目录，容器重建不丢数据
+      - ./backend/data:/app/data
+    environment:
+      # ---------- LLM 提供方 ----------
+      # mock（默认，无需 Key）| openai（任意 OpenAI 兼容网关）| ollama（本地模型）
+      CG_LLM_PROVIDER: "${CG_LLM_PROVIDER:-mock}"
+      # openai 兼容接口填到 /v1 为止；ollama 填 http://host.docker.internal:11434
+      CG_LLM_BASE_URL: "${CG_LLM_BASE_URL:-}"
+      CG_LLM_API_KEY: "${CG_LLM_API_KEY:-}"
+      CG_LLM_MODEL: "${CG_LLM_MODEL:-}"
+      CG_LLM_TEMPERATURE: "${CG_LLM_TEMPERATURE:-0.8}"
+      # ---------- 记忆与上下文 ----------
+      CG_MEMORY_TOP_K: "${CG_MEMORY_TOP_K:-5}"
+      CG_RECENT_WINDOW: "${CG_RECENT_WINDOW:-12}"
+      CG_REFLECT_EVERY: "${CG_REFLECT_EVERY:-6}"
+      # ---------- 世界书 / 脱敏 ----------
+      CG_LORE_ENABLED: "${CG_LORE_ENABLED:-true}"
+      CG_LORE_BUDGET: "${CG_LORE_BUDGET:-1200}"
+      CG_LORE_SCAN_WINDOW: "${CG_LORE_SCAN_WINDOW:-12}"
+      CG_DESENSITIZE_ENABLED: "${CG_DESENSITIZE_ENABLED:-true}"
+      CG_DESENSITIZE_BLACKLIST: "${CG_DESENSITIZE_BLACKLIST:-}"
+      # 数据库固定指向挂载卷（一般无需修改）
+      CG_DATABASE_URL: "sqlite:////app/data/cyber_gf.db"
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request,sys; sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/health', timeout=3).status == 200 else 1)"
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    # ollama 跑在宿主机时使用：让容器可通过 host.docker.internal 访问宿主机
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"

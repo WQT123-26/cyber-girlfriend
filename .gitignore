@@ -1,0 +1,110 @@
+# ==========================================================================
+# 赛博女友 CyberGirlfriend - .gitignore
+# ==========================================================================
+
+# --------------------------------------------------------------------------
+# Python
+# --------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# 打包 / 分发
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+wheels/
+
+# 虚拟环境
+.venv/
+venv/
+env/
+ENV/
+.python-version
+
+# 测试与缓存
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# --------------------------------------------------------------------------
+# 本地数据与配置（重要：不要提交聊天记录与密钥）
+# --------------------------------------------------------------------------
+data/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+.env
+.env.*
+!.env.example
+
+# 运行时中间产物
+*.log
+logs/
+temp/
+tmp/
+output/
+
+# --------------------------------------------------------------------------
+# Node / 前端
+# --------------------------------------------------------------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+.pnpm-store/
+dist/
+dist-ssr/
+.vite/
+.cache/
+.eslintcache
+
+# vue.global.prod.js 属于本地 vendor 资源，需随仓库分发，因此不忽略
+!backend/static/vendor/vue.global.prod.js
+
+# --------------------------------------------------------------------------
+# IDE / 编辑器
+# --------------------------------------------------------------------------
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+*.swp
+*.swo
+*~
+.history/
+*.code-workspace
+
+# --------------------------------------------------------------------------
+# 操作系统
+# --------------------------------------------------------------------------
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.directory
+.Trash-*

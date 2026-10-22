@@ -1,0 +1,70 @@
+# 赛博女友 / cyber-girlfriend —— 构建上下文排除清单
+# 目标：镜像只包含运行所需代码，绝不把聊天记录、数据库与密钥带进镜像层。
+
+# ---------- 本地数据（含聊天记录与 API Key，绝不能进镜像）----------
+backend/data/
+data/
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+*.sqlite3
+.env
+.env.*
+!.env.example
+
+# ---------- Python 缓存与虚拟环境 ----------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+venv/
+env/
+.python-version
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+htmlcov/
+.build/
+dist/
+build/
+*.egg-info/
+*.egg
+
+# ---------- 版本控制与 CI ----------
+.git/
+.gitignore
+.github/
+
+# ---------- 文档与仓库附属（运行不需要）----------
+docs/
+README.md
+CHANGELOG.md
+CONTRIBUTING.md
+CODE_OF_CONDUCT.md
+SECURITY.md
+LICENSE
+scripts/
+
+# ---------- 编辑器与系统杂项 ----------
+.idea/
+.vscode/
+*.iml
+*.swp
+*.swo
+*~
+.history/
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+
+# ---------- 运行期产物 ----------
+*.log
+logs/
+temp/
+tmp/
